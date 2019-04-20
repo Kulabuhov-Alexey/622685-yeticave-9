@@ -1,6 +1,9 @@
 <?php
 require_once('helpers.php');
+
 $user_name = 'Alexey'; // укажите здесь ваше имя
+$is_auth = rand(0, 1);
+
 /**
  * @param integer $value
  * функция для форматирования отображения цены
@@ -11,16 +14,7 @@ function format_price ($value) {
     //форматируем полученное число через встроенную ф-цию и добавляем пробел со знаком рубля
     return number_format($value , 0 , ' , ' , ' ')." &#8381;";    
 }
-/**
- * @param string $str
- * функция для фильтрации введденых данных при помощи встроенной функции htmlspecialchars()
- * @author KulabuhovAlexey
- * @return string
- */ 
-function esc($str) {
-	$text = htmlspecialchars($str);
-	return $text;
-}
+
 $page_content = include_template('index.php', 
 [   'categories' => [
     "boards" => "Доски и лыжи",
@@ -64,10 +58,12 @@ $page_content = include_template('index.php',
         ] 
             ]
 ]);
+
 $layout_content = include_template('layout.php', [
     'page_content' => $page_content,
     'title' => 'Главная',
-    'user_name' => 'Alexey'
+    'user_name' => $user_name,
+    'is_auth' => $is_auth
 ]);
 
 print($layout_content);
