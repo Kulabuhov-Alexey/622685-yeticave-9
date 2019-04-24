@@ -8,8 +8,8 @@ CREATE TABLE categories (
     name CHAR(30) NOT NULL,
     symbol_code CHAR(30) 
 );
-CREATE INDEX i_cat ON categories(id);
-CREATE INDEX i_cat ON categories(name);
+CREATE INDEX i_cat_i ON categories(id);
+CREATE INDEX i_cat_n ON categories(name);
 
 CREATE TABLE stuff (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -25,8 +25,9 @@ CREATE TABLE stuff (
     category CHAR     
 ); 
 CREATE INDEX i_st_n ON stuff(name);
-CREATE INDEX i_st_d ON stuff(description(1000));
-CREATE INDEX i_st_i ON stuff(id);
+CREATE INDEX i_st_a ON stuff(author_id);
+CREATE INDEX i_st_w ON stuff(winner);
+CREATE INDEX i_st_c ON stuff(category);
 
 CREATE TABLE bet (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -35,7 +36,8 @@ CREATE TABLE bet (
     author_id CHAR,
     lot_id INT
 );
-CREATE INDEX i_bet ON bet(id);
+CREATE INDEX i_bet_a ON bet(author_id);
+CREATE INDEX i_bet_l ON bet(lot_id);
 
 CREATE TABLE users (
     dt_reg TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -47,4 +49,7 @@ CREATE TABLE users (
     lot_id INT,
     bet_id INT
 );
-CREATE INDEX i_email ON users(email);
+CREATE INDEX i_us_e ON users(email);
+CREATE INDEX i_us_l ON users(lot_id);
+CREATE INDEX i_us_b ON users(bet_id);
+CREATE INDEX i_us_n ON users(name);
