@@ -30,7 +30,7 @@
                             <span class="lot__cost"><?= format_price(htmlspecialchars($item['item_price'])); ?></span>
                         </div>
                         <div class="lot__timer timer <?= $timer_finishing; ?>">
-                            <?php time_to_midnight(); ?>
+                            <?= time_to_midnight(); ?>
                         </div>
                     </div>
                 </div>
