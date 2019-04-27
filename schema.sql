@@ -1,55 +1,50 @@
+DROP DATABASE IF EXISTS yeticave;
+
 CREATE DATABASE yeticave
-DEFAULT CHARACTER SET utf8
-DEFAULT COLLATE utf8_general_ci;
+    DEFAULT CHARACTER SET utf8
+    DEFAULT COLLATE utf8_general_ci;
+
 USE yeticave;
 
 CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name CHAR(30) NOT NULL,
-    symbol_code CHAR(30) 
+    name VARCHAR(30) NOT NULL,
+    symbol_code VARCHAR(30) 
 );
-CREATE INDEX i_cat_i ON categories(id);
 CREATE INDEX i_cat_n ON categories(name);
 
 CREATE TABLE stuff (
     id INT AUTO_INCREMENT PRIMARY KEY,
     dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    name CHAR(30),
-    description TEXT,
-    photo_url TEXT,
+    name VARCHAR(100) NOT NULL,
+    description BLOB,
+    photo_url VARCHAR(255),
     start_price INT,
+    current_price INT,
     dt_end TIMESTAMP,
     step_call INT,
-    author_id CHAR,
-    winner CHAR,
-    category CHAR     
+    user_id INT,
+    winner INT,
+    category INT     
 ); 
 CREATE INDEX i_st_n ON stuff(name);
-CREATE INDEX i_st_a ON stuff(author_id);
-CREATE INDEX i_st_w ON stuff(winner);
-CREATE INDEX i_st_c ON stuff(category);
 
 CREATE TABLE bet (
     id INT AUTO_INCREMENT PRIMARY KEY,
     dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    total INT,
-    author_id CHAR,
+    price INT,
+    user_id INT,
     lot_id INT
 );
-CREATE INDEX i_bet_a ON bet(author_id);
-CREATE INDEX i_bet_l ON bet(lot_id);
 
 CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     dt_reg TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    email CHAR PRIMARY KEY NOT NULL UNIQUE,
-    name CHAR,
-    pass CHAR, 
-    avatar_url TEXT,
-    contact TEXT,
-    lot_id INT,
-    bet_id INT
+    email CHAR NOT NULL UNIQUE,
+    name VARCHAR(30) NOT NULL,
+    pass VARCHAR(20), 
+    avatar_url VARCHAR(255),
+    contact TEXT
 );
 CREATE INDEX i_us_e ON users(email);
-CREATE INDEX i_us_l ON users(lot_id);
-CREATE INDEX i_us_b ON users(bet_id);
 CREATE INDEX i_us_n ON users(name);
