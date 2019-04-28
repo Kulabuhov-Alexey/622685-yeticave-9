@@ -1,7 +1,6 @@
 <?php
 require_once('helpers.php');
-
-date_default_timezone_set("Europe/Moscow");
+require_once('config.php');
 
 $user_name = 'Alexey'; // укажите здесь ваше имя
 $is_auth = rand(0, 1);
@@ -61,14 +60,12 @@ function format_price ($price) {
  * функция для отображения времени оставшегося до конца распродажи
  * время выводится в заданном формате 'ЧЧ:ММ'
  * @author KulabuhovAlexey
- * @return time_to_midnight - возвращаем время до конца распродажи(полночь)
+ * @return возвращаем время до конца распродажи(полночь)
  */
 function time_to_midnight () {
-    $dt_now = time();
-    $dt_midnight = strtotime('tomorrow midnight');
-    $dt_diff = $dt_midnight - $dt_now;
-    $time_to_midnight = new DateTime('@'.$dt_diff);
-    return $time_to_midnight= date_format($time_to_midnight,'H:i'); 
+    $t1 = date_create('now');
+    $t2 = date_create('tomorrow midnight');
+    return date_diff($t2, $t1)->format('%H:%i'); 
 }
 
 $page_content = include_template('index.php', [
