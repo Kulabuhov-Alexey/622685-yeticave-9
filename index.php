@@ -2,50 +2,36 @@
 require_once('helpers.php');
 require_once('config.php');
 
+//Подключение к БД
+$con = @mysqli_connect($host, $user, $password, $database);
+if (!$con) {
+    die ('Connection FAILED ' . mysqli_connect_error());
+}
+else {
+mysqli_set_charset($con, 'utf-8');
+}
+$sql = 'SELECT name, symbol_code 
+        FROM categories';
+$sql2 = 'SELECT stuff.name, categories.name AS category, start_price, photo_url 
+        FROM stuff
+        JOIN categories ON category = categories.id ;';
+$result = mysqli_query($con, $sql);
+$result2 = mysqli_query($con, $sql2);
+if ($result&&$result2 == false) {
+    print("Произошла ошибка при выполнении запросов");
+}
+else {
+    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $items = mysqli_fetch_all($result2, MYSQLI_ASSOC);
+}
+
 $user_name = 'Alexey'; // укажите здесь ваше имя
+
 $is_auth = rand(0, 1);
+
 $timer_finishing = date('H') < 23 ?:'timer--finishing' ;// для добавления модификатора в случае если до конца распродажи(суток) остается меньше часа
-$categories = [
-    'boards' => 'Доски и лыжи',
-    'attachment' => 'Крепления',
-    'boots' => 'Ботинки',
-    'clothing' => 'Одежда',
-    'tools' => 'Инструменты',
-    'other' => 'Разное'
-];
-$items = [
-[
-    'name' => '2014 Rossignol District Snowboard',
-    'category' => $categories['boards'],
-    'item_price' => 10999,
-    'item_photo' => 'img/lot-1.jpg'
-], [
-    'name' => 'DC Ply Mens 2016/2017 Snowboard',
-    'category' => $categories['boards'],
-    'item_price' => 159999,
-    'item_photo' => 'img/lot-2.jpg'
-], [
-    'name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-    'category' => $categories['attachment'],
-    'item_price' => 8000,
-    'item_photo' => 'img/lot-3.jpg'
-], [
-   'name' => 'Ботинки для сноуборда DC Mutiny Charocal',
-   'category' => $categories['boots'],
-   'item_price' => 10999,
-   'item_photo' => 'img/lot-4.jpg'
-], [
-   'name' => 'Куртка для сноуборда DC Mutiny Charocal',
-   'category' => $categories['clothing'],
-   'item_price' => 7500,
-   'item_photo' => 'img/lot-5.jpg'
-], [
-   'name' => 'Маска Oakley Canopy',
-   'category' => $categories['other'],
-   'item_price' => 5400,
-   'item_photo' => 'img/lot-6.jpg'
-] 
-        ];
+
+
 /**
  * функция для форматирования отображения цены
  * @param integer $price - неотформатированная цена
@@ -62,16 +48,17 @@ function format_price ($price) {
  * @author KulabuhovAlexey
  * @return возвращаем время до конца распродажи(полночь)
  */
-function time_to_midnight () {
+function time_sell_off ($finish_sell_time) {
     $t1 = date_create('now');
-    $t2 = date_create('tomorrow midnight');
+    $t2 = date_create($finish_sell_time);
     return date_diff($t2, $t1)->format('%H:%i'); 
 }
 
 $page_content = include_template('index.php', [
     'categories' => $categories, 
     'items' => $items,
-    'timer_finishing' => $timer_finishing
+    'timer_finishing' => $timer_finishing,
+    'finish_sell_time' => $finish_sell_time
 ]);
 
 $layout_content = include_template('layout.php', [

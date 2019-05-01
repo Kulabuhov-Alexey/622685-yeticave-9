@@ -3,9 +3,9 @@
     <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
     <ul class="promo__list">
         <!--заполните этот список из массива категорий-->
-        <?php foreach ($categories as $alias => $category) : ?>
-            <li class="promo__item promo__item--<?= htmlspecialchars($alias); ?>">
-                <a class="promo__link" href="pages/all-lots.html"><?= htmlspecialchars($category); ?></a>
+        <?php foreach ($categories as $category) : ?>
+            <li class="promo__item promo__item--<?= htmlspecialchars($category[symbol_code]); ?>">
+                <a class="promo__link" href="pages/all-lots.html"><?= htmlspecialchars($category[name]); ?></a>
             </li>
         <?php endforeach; ?>
     </ul>
@@ -26,11 +26,11 @@
                     <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?= htmlspecialchars($item['name']); ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
-                            <span class="lot__amount"><?= htmlspecialchars($item['item_price']); ?></span>
-                            <span class="lot__cost"><?= format_price(htmlspecialchars($item['item_price'])); ?></span>
+                            <span class="lot__amount"><?= htmlspecialchars($item['start_price']); ?></span>
+                            <span class="lot__cost"><?= format_price(htmlspecialchars($item['start_price'])); ?></span>
                         </div>
                         <div class="lot__timer timer <?= $timer_finishing; ?>">
-                            <?= time_to_midnight(); ?>
+                            <?= time_sell_off($finish_sell_time); ?>
                         </div>
                     </div>
                 </div>
