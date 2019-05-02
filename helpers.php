@@ -143,4 +143,35 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
+$user_name = 'Alexey'; // имя пользователя
+
+$is_auth = rand(0, 1); // для имитации авторизации
+
+/**
+ * функция для форматирования отображения цены
+ * @param integer $price - неотформатированная цена
+ * @author KulabuhovAlexey
+ * @return string - возвращаем отформатированную цену
+ */
+function format_price($price)
+{
+    //форматируем полученное число через встроенную ф-цию и добавляем пробел со знаком рубля
+    return number_format($price, 0, ' , ', ' ') . ' &#8381;';
+}
+
+/**
+ * функция для отображения времени оставшегося до конца распродажи
+ * время выводится в заданном формате 'ЧЧ:ММ'
+ * @author KulabuhovAlexey
+ * @param string время до которого будет длиться распродажа(берется из таблицы stuff->dt_end)
+ * @return возвращаем время до конца распродажи(в формате ЧЧ:ММ)
+ */
+function time_sell_off($finish_sell_time)
+{
+    $dt_diff = strtotime($finish_sell_time) - time();
+    $hours = floor($dt_diff / 3600);
+    $minutes = floor(($dt_diff % 3600) / 60);
+    echo str_pad($hours, 2, '0', STR_PAD_LEFT).':'.str_pad($minutes, 2, '0', STR_PAD_LEFT);
+}
+
 

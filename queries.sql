@@ -14,13 +14,13 @@ INSERT INTO users
 
 /*Вносим первоначальные данные в таблицу Лоты*/
 INSERT INTO stuff
-    (name, description, photo_url, start_price, dt_end, step_call, user_id, category) VALUE 
-    ('2014 Rossignol District Snowboard', '', 'img/lot-1.jpg', 10999, '0', 100, 1, 1),
-    ('DC Ply Mens 2016/2017 Snowboard', '', 'img/lot-2.jpg', 159999, '0', 100, 2, 1),
-    ('Крепления Union Contact Pro 2015 года размер L/XL', '', 'img/lot-3.jpg', 8000, '0', 100, 1, 2),
-    ('Ботинки для сноуборда DC Mutiny Charocal', '', 'img/lot-4.jpg', 10999, '0', 100, 2, 3),
-    ('Куртка для сноуборда DC Mutiny Charocal', '', 'img/lot-5.jpg', 7500, '0', 100, 1, 4),
-    ('Маска Oakley Canopy', '', 'img/lot-6.jpg', '5400', '0', 100, 2, 6);
+    (name, description, photo_url, start_price, current_price, dt_end, step_call, user_id, category) VALUE 
+    ('2014 Rossignol District Snowboard', '', 'img/lot-1.jpg', 10999, 11999, DATE_ADD(NOW(), INTERVAL 1 HOUR), 100, 1, 1),
+    ('DC Ply Mens 2016/2017 Snowboard', '', 'img/lot-2.jpg', 159999, 169999, DATE_ADD(NOW(), INTERVAL 2 DAY), 100, 2, 1),
+    ('Крепления Union Contact Pro 2015 года размер L/XL', '', 'img/lot-3.jpg', 8000, 9000, DATE_ADD(NOW(), INTERVAL 2 DAY), 100, 1, 2),
+    ('Ботинки для сноуборда DC Mutiny Charocal', '', 'img/lot-4.jpg', 10999,  11999,DATE_ADD(NOW(), INTERVAL 2 DAY), 100, 2, 3),
+    ('Куртка для сноуборда DC Mutiny Charocal', '', 'img/lot-5.jpg', 7500,  8500,DATE_ADD(NOW(), INTERVAL 2 DAY), 100, 1, 4),
+    ('Маска Oakley Canopy', '', 'img/lot-6.jpg', 5400, 6400, DATE_ADD(NOW(), INTERVAL 2 DAY), 100, 2, 6);
 
 /*Вносим первоначальные данные в таблицу Ставки(*/ 
 INSERT INTO bet
