@@ -13,7 +13,8 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
-function is_date_valid(string $date) : bool {
+function is_date_valid(string $date): bool
+{
     $format_to_check = 'Y-m-d';
     $dateTimeObj = date_create_from_format($format_to_check, $date);
 
@@ -29,7 +30,8 @@ function is_date_valid(string $date) : bool {
  *
  * @return mysqli_stmt Подготовленное выражение
  */
-function db_get_prepare_stmt($link, $sql, $data = []) {
+function db_get_prepare_stmt($link, $sql, $data = [])
+{
     $stmt = mysqli_prepare($link, $sql);
 
     if ($stmt === false) {
@@ -46,11 +48,9 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
 
             if (is_int($value)) {
                 $type = 'i';
-            }
-            else if (is_string($value)) {
+            } else if (is_string($value)) {
                 $type = 's';
-            }
-            else if (is_double($value)) {
+            } else if (is_double($value)) {
                 $type = 'd';
             }
 
@@ -96,9 +96,9 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
  *
  * @return string Рассчитанная форма множественнго числа
  */
-function get_noun_plural_form (int $number, string $one, string $two, string $many): string
+function get_noun_plural_form(int $number, string $one, string $two, string $many): string
 {
-    $number = (int) $number;
+    $number = (int)$number;
     $mod10 = $number % 10;
     $mod100 = $number % 100;
 
@@ -126,7 +126,8 @@ function get_noun_plural_form (int $number, string $one, string $two, string $ma
  * @param array $data Ассоциативный массив с данными для шаблона
  * @return string Итоговый HTML
  */
-function include_template($name, array $data = []) {
+function include_template($name, array $data = [])
+{
     $name = 'templates/' . $name;
     $result = '';
 
@@ -171,7 +172,64 @@ function time_sell_off($finish_sell_time)
     $dt_diff = strtotime($finish_sell_time) - time();
     $hours = floor($dt_diff / 3600);
     $minutes = floor(($dt_diff % 3600) / 60);
-    echo str_pad($hours, 2, '0', STR_PAD_LEFT).':'.str_pad($minutes, 2, '0', STR_PAD_LEFT);
+    return str_pad($hours, 2, '0', STR_PAD_LEFT) . ':' . str_pad($minutes, 2, '0', STR_PAD_LEFT);
 }
 
+/**
+ * функция для выборки категорий
+ * @author KulabuhovAlexey
+ * @param mixed подключение к бызе данных
+ * @return array массив категорий
+ */
+function select_categories($con)
+{
+    $sql = 'SELECT name, symbol_code 
+        FROM categories';
+    $result = mysqli_query($con, $sql);
+    if ($result == false) {
+        print("Произошла ошибка при выполнении запроса 'select_category'");
+    } else {
+        $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+    return $categories;
+}
+/**
+ * функция для выборки лотов
+ * @author KulabuhovAlexey
+ * @param mixed подключение к бызе данных
+ * @return array массив лотов
+ */
+function select_items($con)
+{
+    $sql = 'SELECT stuff.name, categories.name AS category, start_price, photo_url, stuff.id, current_price, dt_end   
+            FROM stuff
+            JOIN categories ON category = categories.id ;';
+    $result = mysqli_query($con, $sql);
+    if ($result == false) {
+        print("Произошла ошибка при выполнении запроса 'select_items'");
+    } else {
+        $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+    return $items;
+}
 
+/**
+ * функция для выборки одного лота
+ * @author KulabuhovAlexey
+ * @param mixed подключение к бызе данных
+ * @return array массив с данными лота
+ */
+function select_item($con, $id)
+{
+    $sql = 'SELECT stuff.name, categories.name AS category, start_price, photo_url, stuff.id, description, current_price, step_call, dt_end  
+            FROM stuff
+            JOIN categories ON category = categories.id
+            WHERE stuff.id =' . $id;
+    $result = mysqli_query($con, $sql);
+    if ($result == false) {
+        print("Произошла ошибка при выполнении запроса 'select_item'");
+    } else {
+        $item = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+    return $item;
+}
