@@ -164,7 +164,7 @@ function format_price($price)
  * функция для отображения времени оставшегося до конца распродажи
  * время выводится в заданном формате 'ЧЧ:ММ'
  * @author KulabuhovAlexey
- * @param string время до которого будет длиться распродажа(берется из таблицы stuff->dt_end)
+ * @param string $finish_sell_time время до которого будет длиться распродажа(берется из таблицы stuff->dt_end)
  * @return возвращаем время до конца распродажи(в формате ЧЧ:ММ)
  */
 function time_sell_off($finish_sell_time)
@@ -176,60 +176,37 @@ function time_sell_off($finish_sell_time)
 }
 
 /**
- * функция для выборки категорий
+ * функция для выборки значений из базы данных 
  * @author KulabuhovAlexey
- * @param mixed подключение к бызе данных
- * @return array массив категорий
+ * @param mixed $con подключение к базе данных
+ * @param mixed $sql запрос который нужно выполнить
+ * @return array массив со значениями полученными по запросу
  */
-function select_categories($con)
+function fetch_all($con, $sql)
 {
-    $sql = 'SELECT name, symbol_code 
-        FROM categories';
     $result = mysqli_query($con, $sql);
     if ($result == false) {
-        print("Произошла ошибка при выполнении запроса 'select_category'");
+        print("Произошла ошибка при выполнении запроса " . $sql);
     } else {
-        $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
-    return $categories;
-}
-/**
- * функция для выборки лотов
- * @author KulabuhovAlexey
- * @param mixed подключение к бызе данных
- * @return array массив лотов
- */
-function select_items($con)
-{
-    $sql = 'SELECT stuff.name, categories.name AS category, start_price, photo_url, stuff.id, current_price, dt_end   
-            FROM stuff
-            JOIN categories ON category = categories.id ;';
-    $result = mysqli_query($con, $sql);
-    if ($result == false) {
-        print("Произошла ошибка при выполнении запроса 'select_items'");
-    } else {
-        $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-    return $items;
+    return $result;
 }
 
 /**
- * функция для выборки одного лота
+ * функция для ввода данных в базу
  * @author KulabuhovAlexey
- * @param mixed подключение к бызе данных
- * @return array массив с данными лота
+ * @param mixed $con подключение к базе данных
+ * @param mixed $sql запрос который нужно выполнить
+ * @param array $data массив с данными для подстановки в подготовленное выражение
+ * @return array массив со значениями полученными по запросу
  */
-function select_item($con, $id)
+function db_insert_data($con, $sql, $data = [])
 {
-    $sql = 'SELECT stuff.name, categories.name AS category, start_price, photo_url, stuff.id, description, current_price, step_call, dt_end  
-            FROM stuff
-            JOIN categories ON category = categories.id
-            WHERE stuff.id =' . $id;
-    $result = mysqli_query($con, $sql);
-    if ($result == false) {
-        print("Произошла ошибка при выполнении запроса 'select_item'");
-    } else {
-        $item = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $stmt = db_get_prepare_stmt($con, $sql, $data);
+    $result = mysqli_stmt_execute($stmt);
+    if ($result) {
+        $result = mysqli_insert_id($con);
     }
-    return $item;
+    return $result;
 }

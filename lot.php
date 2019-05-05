@@ -3,8 +3,17 @@ require_once('helpers.php');
 require_once('config.php');
 
 $id = intval($_GET['id']);
-$item = select_item($con, $id);
-$categories = select_categories($con);
+
+$sql_item = 'SELECT stuff.name, categories.name AS category, start_price, photo_url, stuff.id, description, current_price, step_call, dt_end  
+            FROM stuff
+            JOIN categories ON category = categories.id
+            WHERE stuff.id =' . $id;
+
+$sql_categories = 'SELECT name, symbol_code 
+                  FROM categories';
+
+$item = fetch_all($con, $sql_item);
+$categories = fetch_all($con, $sql_categories);
 
 if ($id && count($item) != 0) {
     $page_content = include_template('lot.php', [
