@@ -178,8 +178,8 @@ function time_sell_off($finish_sell_time)
 /**
  * функция для выборки значений из базы данных 
  * @author KulabuhovAlexey
- * @param mixed $con подключение к базе данных
- * @param mixed $sql запрос который нужно выполнить
+ * @param object $con подключение к базе данных
+ * @param string $sql запрос который нужно выполнить
  * @return array массив со значениями полученными по запросу
  */
 function fetch_all($con, $sql)
@@ -196,8 +196,8 @@ function fetch_all($con, $sql)
 /**
  * функция для ввода данных в базу
  * @author KulabuhovAlexey
- * @param mixed $con подключение к базе данных
- * @param mixed $sql запрос который нужно выполнить
+ * @param object $con подключение к базе данных
+ * @param string $sql запрос который нужно выполнить
  * @param array $data массив с данными для подстановки в подготовленное выражение
  * @return array массив со значениями полученными по запросу
  */

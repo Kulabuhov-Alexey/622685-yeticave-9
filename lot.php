@@ -15,18 +15,25 @@ $sql_categories = 'SELECT name, symbol_code
 $item = fetch_all($con, $sql_item);
 $categories = fetch_all($con, $sql_categories);
 
+$nav = include_template('nav.php', [
+    'categories' => $categories
+]);
+
 if ($id && count($item) != 0) {
     $page_content = include_template('lot.php', [
+        'nav' => $nav,
         'item' => $item,
         'categories' => $categories
     ]);
 } else {
     $page_content = include_template('404.php', [
-    'categories' => $categories
+        'nav' => $nav,
+        'categories' => $categories
     ]);
 }
 
 $layout_content = include_template('layout.php', [
+    'nav' => $nav,
     'page_content' => $page_content,
     'categories' => $categories,
     'title' => $item[0]['name'] ?? 'Ошибка: такой страницы не существует',

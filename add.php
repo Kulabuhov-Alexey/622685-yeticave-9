@@ -7,8 +7,12 @@ $sql_categories = 'SELECT name, symbol_code
 
 $categories = fetch_all($con, $sql_categories);
 
+$nav = include_template('nav.php', [
+    'categories' => $categories
+]);
 
 $page_content = include_template('add.php', [
+    'nav' => $nav,
     'categories' => $categories
 ]);
 
@@ -40,9 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($file_type !== "image/png" && $file_type !== "image/jpeg") {
             $errors['pic'] = 'Загрузите картинку в формате jpg, jpeg или png';
         } else {
-            $file_name = uniqid() . '.jpg';
+            $file_name = uniqid() . ($file_type == "image/png" ? '.png' : '.jpg');
             $file_path = __DIR__ . '/uploads/';
-            $file_url = '/622685-yeticave-9/uploads/' . $file_name;
             move_uploaded_file($_FILES['pic']['tmp_name'], $file_path . $file_name);
         }
     } else {
@@ -53,26 +56,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $page_content = include_template('add.php', ['categories' => $categories, 'errors' => $errors, 'post' => $_POST]);
     } else {
 
-        $sql_item = 'SELECT id  
-                     FROM stuff
-                     WHERE photo_url = \'' . $file_url . '\'';
-
         $sql_ins_item = 'INSERT INTO stuff
                          (name, description, photo_url, start_price, current_price, dt_end, step_call, user_id, category) VALUE 
-                         (?, ?, ?, ?, 11999, ?, ?, 1, ?)';
+                         (?, ?, ?, ?, ?, ?, ?, 1, ?)';
 
         $sql_category_id = 'SELECT id 
                             FROM categories
                             WHERE name =\'' . $_POST['category'] . '\'';
         $category_id = fetch_all($con, $sql_category_id);
-
-        if (db_insert_data($con, $sql_ins_item, [$_POST['lot-name'], $_POST['message'], $file_url, $_POST['lot-rate'], $_POST['lot-date'] . ' 23:59:59', $_POST['lot-step'], $category_id[0]['id']])) {
-            header("Location: lot.php?id=" . fetch_all($con, $sql_item)[0]['id']);
+        $item_id = db_insert_data($con, $sql_ins_item, [$_POST['lot-name'], $_POST['message'], $file_name, $_POST['lot-rate'], $_POST['lot-rate'], $_POST['lot-date'] . ' 23:59:59', $_POST['lot-step'], $category_id[0]['id']]);
+        if ($item_id) {
+            header("Location: lot.php?id=" . $item_id);
         }
     }
 }
 
 $layout_content = include_template('layout.php', [
+    'nav' => $nav,
     'page_content' => $page_content,
     'categories' => $categories,
     'title' => 'Добаление лота',

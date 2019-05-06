@@ -1,11 +1,7 @@
 <main>
     <nav class="nav">
         <ul class="nav__list container">
-            <?php foreach ($categories as $category) : ?>
-                <li class="nav__item">
-                    <a href="pages/all-lots.html"><?= htmlspecialchars($category['name']); ?></a>
-                </li>
-            <?php endforeach; ?>
+            <?= $nav; ?>
         </ul>
     </nav>
     <section class="lot-item container">
@@ -13,7 +9,7 @@
         <div class="lot-item__content">
             <div class="lot-item__left">
                 <div class="lot-item__image">
-                    <img src="<?= $item[0]['photo_url']; ?>" width="730" height="548" alt="Сноуборд">
+                    <img src="<?= 'uploads/' . $item[0]['photo_url']; ?>" width="730" height="548" alt="Сноуборд">
                 </div>
                 <p class="lot-item__category">Категория: <span><?= $item[0]['category']; ?></span></p>
                 <p class="lot-item__description"><?= $item[0]['description']; ?></p>
