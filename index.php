@@ -2,14 +2,27 @@
 require_once('helpers.php');
 require_once('config.php');
 
-$categories = select_categories($con);
+$sql_categories = 'SELECT name, symbol_code 
+        FROM categories';
+
+$sql_items = 'SELECT stuff.name, categories.name AS category, start_price, photo_url, stuff.id, current_price, dt_end   
+            FROM stuff
+            JOIN categories ON category = categories.id ;';
+
+$categories = fetch_all($con, $sql_categories);
+$items = fetch_all($con, $sql_items);
+
+$nav = include_template('nav.php', [
+    'categories' => $categories
+]);
 
 $page_content = include_template('index.php', [
     'categories' => $categories,
-    'items' => select_items($con)
+    'items' => $items
 ]);
 
 $layout_content = include_template('layout.php', [
+    'nav' => $nav,
     'page_content' => $page_content,
     'categories' => $categories,
     'title' => 'Главная',
