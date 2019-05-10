@@ -180,15 +180,17 @@ function time_sell_off($finish_sell_time)
  * @author KulabuhovAlexey
  * @param object $con подключение к базе данных
  * @param string $sql запрос который нужно выполнить
+ * @param array $data  массив с данными для подстановки в подготовленное выражение
  * @return array массив со значениями полученными по запросу
  */
-function fetch_all($con, $sql)
+function db_fetch_data($con, $sql, $data = [])
 {
-    $result = mysqli_query($con, $sql);
-    if ($result == false) {
-        print("Произошла ошибка при выполнении запроса " . $sql);
-    } else {
-        $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $result = [];
+    $stmt = db_get_prepare_stmt($con, $sql, $data);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    if ($res) {
+        $result = mysqli_fetch_all($res, MYSQLI_ASSOC);
     }
     return $result;
 }
@@ -209,4 +211,55 @@ function db_insert_data($con, $sql, $data = [])
         $result = mysqli_insert_id($con);
     }
     return $result;
+}
+
+/**
+ * функция валидации данных формы
+ * @author KulabuhovAlexey
+ * @param array $data массив с полями имя - значение, которые будем валидировать
+ * @return array массив с ошибками(если таковые имеются)
+ */
+function validate($data)
+{
+    $err = [];
+    $validate_case = [   /// сюда записываем функции-валидаторы
+        function ($key, $value) {
+            if (empty($value)) {
+                    return 'Поле нужно заполнить!!!';
+                }
+        },
+        function ($key, $value) {
+            if ($key == 'category' && $value == 'Выберите категорию') {
+                return 'Выберите категорию';
+            }
+        },
+        function ($key, $value) {
+            if ($key == 'lot-rate' && !(is_numeric($value) && $value > 0)) {
+                return 'Цена должна быть больше 0';
+            }
+        },
+        function ($key, $value) {
+            if ($key == 'lot-date' && !(is_date_valid($value) && ((strtotime($value . ' 23:59:59') - time()) / 3600) >= 24)) {
+                return 'Дата должна быть больше текущей минимум на 1 день';
+            }
+        },
+        function ($key, $value) {
+            if ($key == 'lot-step' && !((int)$value == $value && $value > 0)) {
+                return 'Ставка должна быть целым числом и больше 0';
+            }
+        },
+        function ($key, $value) {
+            if ($key == 'email' && empty(filter_var($value, FILTER_VALIDATE_EMAIL))) {
+                return 'Введен неправильный адрес';
+            }
+        }
+    ];
+    foreach ($data as $key => $value) { ///пробегаем по всем элементам массива, всеми функциями-валидаторами
+        foreach ($validate_case as $function) {
+                if ($function($key, $value)) {
+                    $err[$key] = $function($key, $value);
+                }
+            }
+    }
+    return $err;
 }

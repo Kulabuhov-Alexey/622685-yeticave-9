@@ -9,14 +9,19 @@ $sql_items = 'SELECT stuff.name, categories.name AS category, start_price, photo
             FROM stuff
             JOIN categories ON category = categories.id ;';
 
-$categories = fetch_all($con, $sql_categories);
-$items = fetch_all($con, $sql_items);
+$categories = db_fetch_data($con, $sql_categories);
+$items = db_fetch_data($con, $sql_items);
 
 $nav = include_template('nav.php', [
     'categories' => $categories
 ]);
 
+$promo = include_template('promo.php', [
+    'categories' => $categories
+]);
+
 $page_content = include_template('index.php', [
+    'promo' => $promo,
     'categories' => $categories,
     'items' => $items
 ]);
