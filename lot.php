@@ -12,8 +12,8 @@ $sql_item = 'SELECT stuff.name, categories.name AS category, start_price, photo_
 $sql_categories = 'SELECT name, symbol_code 
                   FROM categories';
 
-$item = fetch_all($con, $sql_item);
-$categories = fetch_all($con, $sql_categories);
+$item = db_fetch_data($con, $sql_item);
+$categories = db_fetch_data($con, $sql_categories);
 
 $nav = include_template('nav.php', [
     'categories' => $categories

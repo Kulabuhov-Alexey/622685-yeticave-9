@@ -5,7 +5,7 @@ require_once('config.php');
 $sql_categories = 'SELECT name, symbol_code 
                    FROM categories';
 
-$categories = fetch_all($con, $sql_categories);
+$categories = db_fetch_data($con, $sql_categories);
 
 $nav = include_template('nav.php', [
     'categories' => $categories
@@ -19,25 +19,7 @@ $page_content = include_template('add.php', [
 //нажимаем добавить лот
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //валидация
-    $errors = [];
-
-    foreach ($_POST as $key => $value) {
-        if (empty($value)) {
-            $errors[$key] = 'Это поле надо заполнить';
-        }
-        if ($key == 'category' && $value == 'Выберите категорию') {
-            $errors[$key] = 'Выберите категорию';
-        }
-        if ($key == 'lot-rate' && !(is_numeric($value) && $value > 0)) {
-            $errors[$key] = 'Цена должна быть больше 0';
-        }
-        if ($key == 'lot-date' && !(is_date_valid($value) && ((strtotime($value . ' 23:59:59') - time()) / 3600) >= 24)) {
-            $errors[$key] = 'Дата должна быть больше текущей минимум на 1 день';
-        }
-        if ($key == 'lot-step' && !((int)$value == $value && $value > 0)) {
-            $errors[$key] = 'Ставка должна быть целым числом и больше 0';
-        }
-    }
+    $errors = validate($_POST);
     //валидация фото
     if (!empty($_FILES['pic']['name']) && !count($errors)) {
         $file_type = mime_content_type($_FILES['pic']['tmp_name']);
@@ -62,11 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $sql_category_id = 'SELECT id 
                             FROM categories
-                            WHERE name =\'' . $_POST['category'] . '\'';
-        $category_id = fetch_all($con, $sql_category_id);
+                            WHERE name = ?';
+        $category_id = db_fetch_data($con, $sql_category_id, [$_POST['category']]);
         $item_id = db_insert_data($con, $sql_ins_item, [$_POST['lot-name'], $_POST['message'], $file_name, $_POST['lot-rate'], $_POST['lot-rate'], $_POST['lot-date'] . ' 23:59:59', $_POST['lot-step'], $category_id[0]['id']]);
         if ($item_id) {
-            header("Location: lot.php?id=" . $item_id);
+            header('Location: lot.php?id=' . $item_id);
         }
     }
 }
