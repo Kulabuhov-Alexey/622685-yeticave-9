@@ -2,6 +2,13 @@
 require_once('helpers.php');
 require_once('config.php');
 
+session_start();
+
+if (!($_SESSION['user'][0]['name'])) {
+    header('HTTP/1.0 403 Forbidden');
+    exit;
+}
+
 $sql_categories = 'SELECT name, symbol_code 
                    FROM categories';
 

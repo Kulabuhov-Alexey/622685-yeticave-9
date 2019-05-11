@@ -50,7 +50,7 @@ $layout_content = include_template('layout.php', [
     'nav' => $nav,
     'page_content' => $page_content,
     'categories' => $categories,
-    'title' => 'Добаление лота',
+    'title' => 'Регистрация пользователя',
     'user_name' => $user_name,
     'is_auth' => $is_auth
 ]);

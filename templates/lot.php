@@ -1,9 +1,5 @@
 <main>
-    <nav class="nav">
-        <ul class="nav__list container">
-            <?= $nav; ?>
-        </ul>
-    </nav>
+    <?= $nav; ?>
     <section class="lot-item container">
         <h2><?= $item[0]['name']; ?></h2>
         <div class="lot-item__content">
@@ -15,7 +11,10 @@
                 <p class="lot-item__description"><?= $item[0]['description']; ?></p>
             </div>
             <div class="lot-item__right">
-                <div class="lot-item__state">
+                <div class="lot-item__state <?php session_start();
+                                            if (!($_SESSION['user'][0]['name'])) {
+                                                echo 'visually-hidden';
+                                            } ?>">
                     <div class="lot-item__timer timer <?= strtotime($item[0]['dt_end']) - time() > 3600 ?: 'timer--finishing'; ?>">
                         <?= time_sell_off($item[0]['dt_end']); ?>
                     </div>

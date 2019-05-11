@@ -27,11 +27,12 @@
                 <nav class="user-menu">
 
                     <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
-                    <?php if ($is_auth) : ?>
+                    <?php session_start();
+                    if ($_SESSION['user'][0]['name']) : ?>
                         <div class="user-menu__logged">
-                            <p><?= $user_name; ?></p>
+                            <p><?= $_SESSION['user'][0]['name']; ?></p>
                             <a class="user-menu__bets" href="pages/my-bets.html">Мои ставки</a>
-                            <a class="user-menu__logout" href="#">Выход</a>
+                            <a class="user-menu__logout" href="logout.php">Выход</a>
                         </div>
                     <?php else : ?>
                         <ul class="user-menu__list">
@@ -39,7 +40,7 @@
                                 <a href="sign-up.php">Регистрация</a>
                             </li>
                             <li class="user-menu__item">
-                                <a href="#">Вход</a>
+                                <a href="login.php">Вход</a>
                             </li>
                         </ul>
                     <?php endif; ?>
@@ -50,12 +51,7 @@
     </div>
 
     <footer class="main-footer">
-        <nav class="nav">
-            <ul class="nav__list container">
-                <!--заполните этот список из массива категорий-->
-                <?= $nav; ?>
-            </ul>
-        </nav>
+        <?= $nav; ?>
         <div class="main-footer__bottom container">
             <div class="main-footer__copyright">
                 <p>© 2019, YetiCave</p>
