@@ -13,7 +13,7 @@
                  <select id="category" name="category">
                      <option>Выберите категорию</option>
                      <?php foreach ($categories as $category) : ?>
-                         <option <?= (!empty($post['category']) && $category['name'] == $post['category']) ? 'selected' : ''; ?>><?= htmlspecialchars($category['name']); ?></option>
+                         <option <?= (!empty($post['category']) && $category['name'] === $post['category']) ? 'selected' : ''; ?>><?= htmlspecialchars($category['name']); ?></option>
                      <?php endforeach; ?>
                  </select>
                  <span class="form__error"><?= $errors['category']; ?></span>

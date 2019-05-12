@@ -2,6 +2,7 @@
 require_once('helpers.php');
 require_once('config.php');
 
+
 $sql_categories = 'SELECT name, symbol_code 
         FROM categories';
 
@@ -34,4 +35,5 @@ $layout_content = include_template('layout.php', [
     'user_name' => $user_name,
     'is_auth' => $is_auth
 ]);
+
 print($layout_content);

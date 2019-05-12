@@ -229,27 +229,27 @@ function validate($data)
             }
         },
         function ($key, $value) {
-            if ($key == 'category' && $value === 'Выберите категорию') {
+            if ($key === 'category' && $value === 'Выберите категорию') {
                 return 'Выберите категорию';
             }
         },
         function ($key, $value) {
-            if ($key == 'lot-rate' && is_numeric($value) && $value <= 0) {
+            if ($key === 'lot-rate' && is_numeric($value) && $value <= 0) {
                 return 'Цена должна быть больше 0';
             }
         },
         function ($key, $value) {
-            if ($key == 'lot-date' && (is_date_valid($value) && ((strtotime($value . ' 23:59:59') - time()) / 3600) <= 24)) {
+            if ($key === 'lot-date' && (is_date_valid($value) && ((strtotime($value . ' 23:59:59') - time()) / 3600) <= 24)) {
                 return 'Дата должна быть больше текущей минимум на 1 день';
             }
         },
         function ($key, $value) {
-            if ($key == 'lot-step' && !empty($value) && ((int)$value == $value && $value <= 0)) {
+            if ($key === 'lot-step' && !empty($value) && ((int)$value == $value && $value <= 0)) {
                 return 'Ставка должна быть целым числом и больше 0';
             }
         },
         function ($key, $value) {
-            if ($key == 'email' && !empty($value) &&  empty(filter_var($value, FILTER_VALIDATE_EMAIL))) {
+            if ($key === 'email' && !empty($value) &&  empty(filter_var($value, FILTER_VALIDATE_EMAIL))) {
                 return 'Введен неправильный адрес';
             }
         }

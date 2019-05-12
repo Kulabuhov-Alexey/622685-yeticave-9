@@ -2,9 +2,7 @@
 require_once('helpers.php');
 require_once('config.php');
 
-session_start();
-
-if (!($_SESSION['user'][0]['name'])) {
+if (!($is_auth)) {
     header('HTTP/1.0 403 Forbidden');
     exit;
 }
@@ -23,17 +21,14 @@ $page_content = include_template('add.php', [
     'categories' => $categories
 ]);
 
-//нажимаем добавить лот
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //валидация
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validate($_POST);
-    //валидация фото
     if (!empty($_FILES['pic']['name']) && !count($errors)) {
         $file_type = mime_content_type($_FILES['pic']['tmp_name']);
         if ($file_type !== "image/png" && $file_type !== "image/jpeg") {
             $errors['pic'] = 'Загрузите картинку в формате jpg, jpeg или png';
         } else {
-            $file_name = uniqid() . ($file_type == "image/png" ? '.png' : '.jpg');
+            $file_name = uniqid() . ($file_type === "image/png" ? '.png' : '.jpg');
             $file_path = __DIR__ . '/uploads/';
             move_uploaded_file($_FILES['pic']['tmp_name'], $file_path . $file_name);
         }
