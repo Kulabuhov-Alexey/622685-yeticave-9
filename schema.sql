@@ -42,7 +42,7 @@ CREATE TABLE users (
     dt_reg TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     email VARCHAR(254) NOT NULL UNIQUE,
     name VARCHAR(30) NOT NULL,
-    pass VARCHAR(20), 
+    pass VARCHAR(254), 
     avatar_url VARCHAR(255),
     contact TEXT
 );

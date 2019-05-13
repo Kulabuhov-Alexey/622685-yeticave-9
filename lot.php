@@ -23,7 +23,8 @@ if ($id && count($item) != 0) {
     $page_content = include_template('lot.php', [
         'nav' => $nav,
         'item' => $item,
-        'categories' => $categories
+        'categories' => $categories,
+        'is_auth' => $is_auth
     ]);
 } else {
     $page_content = include_template('404.php', [
