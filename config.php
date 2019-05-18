@@ -16,5 +16,5 @@ if (!$con) {
 
 session_start();
 if (!empty($_SESSION['user'][0]['name'])) {
-    $is_auth = $_SESSION['user'];
+    $active_user = $_SESSION['user'];
 }

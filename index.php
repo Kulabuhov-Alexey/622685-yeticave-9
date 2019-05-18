@@ -6,12 +6,14 @@ require_once('config.php');
 $sql_categories = 'SELECT name, symbol_code 
         FROM categories';
 
-$sql_items = 'SELECT stuff.name, categories.name AS category, start_price, photo_url, stuff.id, current_price, dt_end   
+$sql_items = 'SELECT stuff.name, categories.name AS category, start_price, photo_url, stuff.id, current_price, dt_end, winner   
             FROM stuff
             JOIN categories ON category = categories.id ;';
 
 $categories = db_fetch_data($con, $sql_categories);
 $items = db_fetch_data($con, $sql_items);
+
+$items = bets_stat($items,$_SESSION['user'][0]['id']);
 
 $nav = include_template('nav.php', [
     'categories' => $categories
@@ -33,7 +35,7 @@ $layout_content = include_template('layout.php', [
     'categories' => $categories,
     'title' => 'Главная',
     'user_name' => $user_name,
-    'is_auth' => $is_auth
+    'active_user' => $active_user
 ]);
 
 print($layout_content);

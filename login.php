@@ -14,7 +14,7 @@ $nav = include_template('nav.php', [
 $page_content = include_template('login.php', [
     'nav' => $nav,
     'categories' => $categories,
-    'is_auth' => $is_auth
+    'active_user' => $active_user
 ]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = db_fetch_data($con, $sql_email, [$_POST['email']]);
         if (!empty($user)) {
             if (password_verify($_POST['password'], $user[0]['pass'])) {
-                session_start();
                 $_SESSION['user'] = $user;
             } else {
                 $errors['password'] = 'Неверный пароль';
@@ -53,7 +52,7 @@ $layout_content = include_template('layout.php', [
     'categories' => $categories,
     'title' => 'Авторизация пользователя',
     'user_name' => $user_name,
-    'is_auth' => $is_auth
+    'active_user' => $active_user
 ]);
 
 print($layout_content);

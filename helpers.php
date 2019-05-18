@@ -146,8 +146,6 @@ function include_template($name, array $data = [])
 
 $user_name = 'Alexey'; // имя пользователя
 
-$is_auth = rand(0, 1); // для имитации авторизации
-
 /**
  * функция для форматирования отображения цены
  * @param integer $price - неотформатированная цена
@@ -224,7 +222,7 @@ function validate($data)
     $err = [];
     $validate_case = [   /// сюда записываем функции-валидаторы
         function ($key, $value) {
-            if (empty($value)) {
+            if (empty($value) && $value == null) {
                 return 'Поле нужно заполнить!!!';
             }
         },
@@ -244,7 +242,7 @@ function validate($data)
             }
         },
         function ($key, $value) {
-            if ($key === 'lot-step' && !empty($value) && ((int)$value == $value && $value <= 0)) {
+            if (($key === 'lot-step' || $key === 'cost') && ($value != null) && !(filter_var($value, FILTER_VALIDATE_INT, array("options" => array("min_range" => 1))))) {
                 return 'Ставка должна быть целым числом и больше 0';
             }
         },
@@ -254,7 +252,7 @@ function validate($data)
             }
         }
     ];
-    foreach ($data as $key => $value) { ///пробегаем по всем элементам массива, всеми функциями-валидаторами
+    foreach ($data  as $key => $value) { ///пробегаем по всем элементам массива, всеми функциями-валидаторами
         foreach ($validate_case as $function) {
             if ($function($key, $value)) {
                 $err[$key] = $function($key, $value);
@@ -262,4 +260,67 @@ function validate($data)
         }
     }
     return $err;
+}
+
+/**
+ * функция определения статуса торгов 
+ * @author KulabuhovAlexey
+ * @param array массив который включает в себя значение 'dt_end' - дату конца торгов
+ * @param int user_id  - id залогиненного пользователя
+ * @return array тот же массив что и был на входе, только добавилась новый подмассив с ключом status и значениями характеризующих статус торгов
+ */
+function bets_stat($array_of_item, $user_id = [])
+{
+    foreach ($array_of_item as $key => $value) {
+
+        $time_to_end = strtotime($value['dt_end']) - time();
+
+        if ($time_to_end < 3600 && $time_to_end > 0) {
+            $array_of_item[$key]['status'] = ['timer--finishing', time_sell_off($value['dt_end'])];
+        }
+        if ($time_to_end <= 0) {
+            $array_of_item[$key]['status'] = ['timer--end', 'Торги окончены', 'rates__item--end'];
+        }
+
+        if ($time_to_end <= 0 && $user_id === $value['winner']) {
+            $array_of_item[$key]['status'] = ['timer--win', 'Ставка выйграла', 'rates__item--win'];
+        }
+
+        if ($time_to_end > 3600) {
+            $array_of_item[$key]['status'] = ['', time_sell_off($value['dt_end'])];
+        }
+    }
+    return $array_of_item;
+}
+
+/**
+ * функция определения статуса торгов 
+ * @author KulabuhovAlexey
+ * @param array массив который включает в себя значение 'dt_end' - дату конца торгов
+ * @param int user_id  - id залогиненного пользователя
+ * @return array тот же массив что и был на входе, только добавилась новый подмассив с ключом status и значениями характеризующих статус торгов
+ */
+function bets_time_format($sql_bet_history)
+{
+    foreach ($sql_bet_history as $key => $value) {
+
+        $time_add_bet = time() - strtotime($sql_bet_history[$key]['dt_add']);
+        
+        if ($time_add_bet >= 0) {
+            $sql_bet_history[$key]['time_ago'] = 'Только что';
+        }
+        if ($time_add_bet > 60) {
+            $count_min = intdiv($time_add_bet,60);
+            $sql_bet_history[$key]['time_ago'] = $count_min . ' ' . get_noun_plural_form($count_min, 'минута','минуты','минут') . ' назад';
+        }
+        if ($time_add_bet > 3600) {
+            $count_hours = intdiv($time_add_bet,3600);
+            $sql_bet_history[$key]['time_ago'] = $count_hours . ' ' . get_noun_plural_form($count_hours, 'час','часа','часов') . ' назад';
+        }       
+        if ($time_add_bet > 86400) {
+            $count_days = intdiv($time_add_bet,86400);
+            $sql_bet_history[$key]['time_ago'] = $count_days . ' ' . get_noun_plural_form($count_days, 'день','дня','дней') . ' назад';
+        }
+    }
+    return $sql_bet_history;
 }

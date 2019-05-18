@@ -19,8 +19,8 @@
                                 <span class="lot__amount"><?= htmlspecialchars($item['start_price']); ?></span>
                                 <span class="lot__cost"><?= format_price(htmlspecialchars($item['current_price'])); ?></span>
                             </div>
-                            <div class="lot__timer timer <?= strtotime($item['dt_end']) - time() > 3600 ?: 'timer--finishing'; ?>">
-                                <?= time_sell_off($item['dt_end']); ?>
+                            <div class="lot__timer timer <?= $item['status'][0]; ?>">
+                            <?= $item['status'][1]; ?>
                             </div>
                         </div>
                     </div>

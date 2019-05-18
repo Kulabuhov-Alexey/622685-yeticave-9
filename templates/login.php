@@ -1,6 +1,6 @@
 <main>
     <?= $nav; ?>
-    <?php if (empty($is_auth[0]['name'])) : print_r($is_auth); ?>
+    <?php if (empty($active_user[0]['name'])) : ?>
         <form class="form container <?= $errors ? 'form--invalid' : ''; ?>" action="login.php" method="post" enctype="multipart/form-data">
             <h2>Вход</h2>
             <div class="form__item <?= !empty($errors['email']) ? 'form__item--invalid' : ''; ?>">
@@ -15,7 +15,7 @@
             </div>
             <button type="submit" class="button">Войти</button>
         </form>
-    <?php else : print($is_auth[0]['name'] . ' Вы уже вошли на сайт, если желаете авторизоваться используя другую учетную запись - выйдете из текущей');
+    <?php else : print(' Вы уже вошли на сайт, если желаете авторизоваться используя другую учетную запись - выйдете из текущей');
     endif; ?>
 
 </main>
