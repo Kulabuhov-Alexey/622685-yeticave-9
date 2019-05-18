@@ -5,7 +5,6 @@
             <h2>Открытые лоты</h2>
         </div>
         <ul class="lots__list">
-            <!--заполните этот список из массива с товарами-->
             <?php foreach ($items as $item) : ?>
                 <li class="lots__item lot">
                     <div class="lot__image">

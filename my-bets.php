@@ -37,6 +37,7 @@ $layout_content = include_template('layout.php', [
     'categories' => $categories,
     'title' => 'Мои ставки',
     'user_name' => $user_name,
-    'active_user' => $active_user
+    'active_user' => $active_user,
+    'search_phrase' => $search_phrase
 ]);
 print($layout_content);
