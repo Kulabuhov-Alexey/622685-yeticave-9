@@ -2,7 +2,7 @@
 require_once('helpers.php');
 require_once('config.php');
 
-if (!($is_auth)) {
+if (!($active_user)) {
     header('HTTP/1.0 403 Forbidden');
     exit;
 }
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $sql_ins_item = 'INSERT INTO stuff
                          (name, description, photo_url, start_price, current_price, dt_end, step_call, user_id, category) VALUE 
-                         (?, ?, ?, ?, ?, ?, ?, 1, ?)';
+                         (?, ?, ?, ?, ?, ?, ?,' . $_SESSION['user'][0]['id'] . ', ?)';
 
         $sql_category_id = 'SELECT id 
                             FROM categories
@@ -61,7 +61,7 @@ $layout_content = include_template('layout.php', [
     'categories' => $categories,
     'title' => 'Добаление лота',
     'user_name' => $user_name,
-    'is_auth' => $is_auth
+    'active_user' => $active_user
 ]);
 
 print($layout_content);
