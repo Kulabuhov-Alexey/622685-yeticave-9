@@ -17,7 +17,7 @@ CREATE TABLE stuff (
     id INT AUTO_INCREMENT PRIMARY KEY,
     dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     name VARCHAR(100) NOT NULL,
-    description BLOB,
+    description TEXT,
     photo_url VARCHAR(255),
     start_price INT,
     current_price INT,
@@ -25,9 +25,9 @@ CREATE TABLE stuff (
     step_call INT,
     user_id INT,
     winner INT,
-    category INT     
-); 
-CREATE INDEX i_st_n ON stuff(name);
+    category INT,
+    FULLTEXT (name, description)     
+);
 
 CREATE TABLE bet (
     id INT AUTO_INCREMENT PRIMARY KEY,
