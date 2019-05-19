@@ -36,7 +36,7 @@
                     </div>
                 <?php endif; ?>
                 <div class="history">
-                    <h3>История ставок (<span>10</span>)</h3>
+                    <h3>История ставок (<span><?= count($bet_history); ?></span>)</h3>
                     <table class="history__list">
                         <?php foreach ($bet_history as $key => $value) : ?>
                             <tr class="history__item"> 

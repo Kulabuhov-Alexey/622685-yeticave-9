@@ -1,0 +1,16 @@
+{
+    "name": "kulabuha/yeticave",
+    "description": "Website for study PHP",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kulabuhov Alexey",
+            "email": "kulabuha@gmail.com"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2",
+        "squizlabs/php_codesniffer": "*"
+    }
+}

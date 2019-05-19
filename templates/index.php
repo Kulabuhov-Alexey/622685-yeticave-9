@@ -19,7 +19,7 @@
                                 <span class="lot__cost"><?= format_price(htmlspecialchars($item['current_price'])); ?></span>
                             </div>
                             <div class="lot__timer timer <?= $item['status'][0]; ?>">
-                            <?= $item['status'][1]; ?>
+                                <?= $item['status'][1]; ?>
                             </div>
                         </div>
                     </div>

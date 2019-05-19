@@ -1,7 +1,7 @@
 <?php
 require_once('helpers.php');
 require_once('config.php');
-
+require_once('getwinner.php');
 
 $sql_categories = 'SELECT name, symbol_code 
         FROM categories';
@@ -9,6 +9,7 @@ $sql_categories = 'SELECT name, symbol_code
 $sql_items = 'SELECT stuff.name, categories.name AS category, start_price, photo_url, stuff.id, current_price, dt_end, winner   
             FROM stuff
             JOIN categories ON category = categories.id
+            WHERE winner IS NULL
             ORDER BY stuff.dt_add DESC';
 
 $categories = db_fetch_data($con, $sql_categories);
