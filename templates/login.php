@@ -16,6 +16,6 @@
             <button type="submit" class="button">Войти</button>
         </form>
     <?php else : print(' Вы уже вошли на сайт, если желаете авторизоваться используя другую учетную запись - выйдете из текущей');
-    endif; ?>
+endif; ?>
 
 </main>

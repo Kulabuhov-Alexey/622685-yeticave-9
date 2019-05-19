@@ -15,7 +15,7 @@ $sql_items = 'SELECT stuff.name, categories.name AS category, start_price, photo
 $categories = db_fetch_data($con, $sql_categories);
 $items = db_fetch_data($con, $sql_items);
 
-$items = bets_stat($items,$_SESSION['user'][0]['id']);
+$items = bets_stat($items, $_SESSION['user'][0]['id']);
 
 $nav = include_template('nav.php', [
     'categories' => $categories

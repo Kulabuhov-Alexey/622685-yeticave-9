@@ -22,7 +22,7 @@ if (!empty($winners)) {
         $update_stuff = db_insert_data($con, $sql_update_stuff);
 
         $recipients[$winners[$key]['email']] = $winners[$key]['name'];
-        
+
         $mailer = new Swift_Mailer($transport);
         $logger = new Swift_Plugins_Loggers_ArrayLogger();
         $mailer->registerPlugin(new Swift_Plugins_LoggerPlugin($logger));

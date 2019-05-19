@@ -39,7 +39,7 @@
                     <h3>История ставок (<span><?= count($bet_history); ?></span>)</h3>
                     <table class="history__list">
                         <?php foreach ($bet_history as $key => $value) : ?>
-                            <tr class="history__item"> 
+                            <tr class="history__item">
                                 <td class="history__name"><?= htmlspecialchars($bet_history[$key]['name']); ?></td>
                                 <td class="history__price"><?= format_price(htmlspecialchars($bet_history[$key]['price'])); ?></td>
                                 <td class="history__time"><?= htmlspecialchars($bet_history[$key]['time_ago']); ?></td>

@@ -21,7 +21,7 @@ if ($category) {
 
 $nav = include_template('nav.php', [
     'categories' => $categories,
-    'cat_class' => $category    
+    'cat_class' => $category
 ]);
 
 $page_content = include_template('all-lots.php', [

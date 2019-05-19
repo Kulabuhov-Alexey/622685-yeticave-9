@@ -9,9 +9,11 @@
                         <div class="rates__img">
                             <img src="./uploads/<?= $item['photo_url']; ?>" width="54" height="40" alt="Сноуборд">
                         </div>
-                        <div><h3 class="rates__title"><a href="lot.php<?= htmlspecialchars('?id=' . $item['id']); ?>"><?= htmlspecialchars($item['name']); ?></a></h3>
-                        <?php if ($item['status'][0] === 'timer--win') : ?><p><?= $item['description']; ?></p>
-                        <?php endif; ?></div>
+                        <div>
+                            <h3 class="rates__title"><a href="lot.php<?= htmlspecialchars('?id=' . $item['id']); ?>"><?= htmlspecialchars($item['name']); ?></a></h3>
+                            <?php if ($item['status'][0] === 'timer--win') : ?><p><?= $item['description']; ?></p>
+                            <?php endif; ?>
+                        </div>
                     </td>
                     <td class="rates__category">
                         <?= htmlspecialchars($item['category']); ?>
@@ -23,7 +25,7 @@
                         <?= format_price($item['current_price']); ?>
                     </td>
                     <td class="rates__time">
-                    <?= htmlspecialchars($item['time_ago']); ?>
+                        <?= htmlspecialchars($item['time_ago']); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
