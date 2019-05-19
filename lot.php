@@ -24,7 +24,7 @@ $sql_ins_cost = 'INSERT INTO bet
                  (?, ' . $_SESSION['user'][0]['id'] . ', ' . $id . ')';
 
 $sql_update_stuff = "UPDATE stuff
-                     SET current_price = {$_POST['cost']}, winner = {$_SESSION['user'][0]['id']} WHERE id  = {$id}";
+                     SET current_price = {$_POST['cost']} WHERE id  = {$id}";
 
 $item = db_fetch_data($con, $sql_item);
 $item = bets_stat($item, $_SESSION['user'][0]['id']);
