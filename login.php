@@ -2,7 +2,7 @@
 require_once('helpers.php');
 require_once('config.php');
 
-$sql_categories = 'SELECT name, symbol_code 
+$sql_categories = 'SELECT name, symbol_code
                    FROM categories';
 
 $categories = db_fetch_data($con, $sql_categories);
@@ -20,7 +20,7 @@ $page_content = include_template('login.php', [
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validate($_POST);
     if (empty($errors)) {
-        $sql_email = 'SELECT id, pass, email, name 
+        $sql_email = 'SELECT id, pass, email, name
                       FROM users
                       WHERE email = ?';
         $user = db_fetch_data($con, $sql_email, [$_POST['email']]);
@@ -35,8 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (count($errors)) {
+    if (!empty($errors)) {
         $page_content = include_template('login.php', [
+            'nav' => $nav,
             'categories' => $categories,
             'errors' => $errors,
             'post' => $_POST
@@ -51,7 +52,6 @@ $layout_content = include_template('layout.php', [
     'page_content' => $page_content,
     'categories' => $categories,
     'title' => 'Авторизация пользователя',
-    'user_name' => $user_name,
     'active_user' => $active_user,
     'search_phrase' => $search_phrase
 ]);

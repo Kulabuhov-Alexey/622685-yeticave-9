@@ -12,11 +12,11 @@ $sql_items = 'SELECT stuff.name, categories.name AS category, start_price, photo
             ORDER BY stuff.dt_add DESC';
 
 $categories = db_fetch_data($con, $sql_categories);
-$category = $_GET['category'] ?? '';
+$category = htmlspecialchars($_GET['category']) ?? '';
 
 if ($category) {
     $items = db_fetch_data($con, $sql_items, [$category]);
-    $items = bets_stat($items, $_SESSION['user'][0]['id']);
+    $items = bets_stat($items, $active_user[0]['id']);
 }
 
 $nav = include_template('nav.php', [
@@ -26,8 +26,8 @@ $nav = include_template('nav.php', [
 
 $page_content = include_template('all-lots.php', [
     'nav' => $nav,
-    'promo' => $promo,
     'categories' => $categories,
+    'title' => $category,
     'items' => $items,
     'search_phrase' => $search_phrase
 ]);
@@ -37,7 +37,6 @@ $layout_content = include_template('layout.php', [
     'page_content' => $page_content,
     'categories' => $categories,
     'title' => $category,
-    'user_name' => $user_name,
     'active_user' => $active_user,
     'search_phrase' => $search_phrase
 ]);

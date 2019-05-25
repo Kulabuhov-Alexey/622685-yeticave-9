@@ -15,7 +15,7 @@ $sql_categories = 'SELECT name, symbol_code
 if ($_SESSION['user'][0]['id']) {
 
     $items = db_fetch_data($con, $sql_items);
-    $items = bets_stat($items, $_SESSION['user'][0]['id']);
+    $items = bets_stat($items, $active_user[0]['id']);
     $items = bets_time_format($items);
     $categories = db_fetch_data($con, $sql_categories);
 
@@ -35,7 +35,6 @@ if ($_SESSION['user'][0]['id']) {
         'page_content' => $page_content,
         'categories' => $categories,
         'title' => 'Мои ставки',
-        'user_name' => $user_name,
         'active_user' => $active_user,
         'search_phrase' => $search_phrase
     ]);

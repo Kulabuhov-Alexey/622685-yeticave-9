@@ -12,22 +12,22 @@ $sql_item = 'SELECT stuff.name, categories.name AS category, start_price, photo_
 $sql_categories = 'SELECT name, symbol_code 
                    FROM categories';
 
-$sql_bet_history = "SELECT dt_add, price, user_id, lot_id, users.name
+$sql_bet_history = 'SELECT dt_add, price, user_id, lot_id, users.name
                     FROM bet
                     JOIN users
                     ON user_id = users.id
-                    WHERE lot_id = {$id}
-                    ORDER BY bet.dt_add DESC";
+                    WHERE lot_id =' . $id . '
+                    ORDER BY bet.dt_add DESC';
 
 $sql_ins_cost = 'INSERT INTO bet
                  (price, user_id, lot_id) VALUE 
-                 (?, ' . $_SESSION['user'][0]['id'] . ', ' . $id . ')';
+                 (?, ?, ?)';
 
-$sql_update_stuff = "UPDATE stuff
-                     SET current_price = {$_POST['cost']} WHERE id  = {$id}";
+$sql_update_stuff = 'UPDATE stuff
+                     SET current_price = ? WHERE id  = ?';
 
 $item = db_fetch_data($con, $sql_item);
-$item = bets_stat($item, $_SESSION['user'][0]['id']);
+$item = bets_stat($item, $active_user[0]['id']);
 
 $categories = db_fetch_data($con, $sql_categories);
 
@@ -46,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         mysqli_query($con, "START TRANSACTION");
-        $item_id = db_insert_data($con, $sql_ins_cost, [$_POST['cost']]);
-        $update_stuff = db_insert_data($con, $sql_update_stuff);
+        $item_id = db_insert_data($con, $sql_ins_cost, [$_POST['cost'], $_SESSION['user'][0]['id'], $id]);
+        $update_stuff = db_insert_data($con, $sql_update_stuff, [$_POST['cost'], $id]);
         if ($item_id && !($update_stuff)) {
             mysqli_query($con, "COMMIT");
             $item = db_fetch_data($con, $sql_item);
@@ -82,7 +82,6 @@ $layout_content = include_template('layout.php', [
     'page_content' => $page_content,
     'categories' => $categories,
     'title' => $item[0]['name'] ?? 'Ошибка: такой страницы не существует',
-    'user_name' => $user_name,
     'active_user' => $active_user,
     'search_phrase' => $search_phrase
 ]);

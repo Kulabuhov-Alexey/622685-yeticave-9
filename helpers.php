@@ -144,8 +144,6 @@ function include_template($name, array $data = [])
     return $result;
 }
 
-$user_name = 'Alexey'; // имя пользователя
-
 /**
  * функция для форматирования отображения цены
  * @param integer $price - неотформатированная цена
@@ -232,8 +230,8 @@ function validate($data)
             }
         },
         function ($key, $value) {
-            if ($key === 'lot-rate' && is_numeric($value) && $value <= 0) {
-                return 'Цена должна быть больше 0';
+            if ($key === 'lot-rate' && !(filter_var($value, FILTER_VALIDATE_INT, array("options" => array("min_range" => 1))))) {
+                return 'Цена должна быть числом больше 0';
             }
         },
         function ($key, $value) {

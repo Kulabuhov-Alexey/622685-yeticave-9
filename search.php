@@ -25,7 +25,6 @@ $nav = include_template('nav.php', [
 
 $page_content = include_template('search.php', [
     'nav' => $nav,
-    'promo' => $promo,
     'categories' => $categories,
     'items' => $items,
     'search_phrase' => $search_phrase
@@ -36,7 +35,6 @@ $layout_content = include_template('layout.php', [
     'page_content' => $page_content,
     'categories' => $categories,
     'title' => 'Результаты поиска',
-    'user_name' => $user_name,
     'active_user' => $active_user,
     'search_phrase' => $search_phrase
 ]);

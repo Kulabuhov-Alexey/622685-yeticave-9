@@ -6,6 +6,8 @@ $database = 'yeticave'; // имя базы данных
 $user = 'root'; // имя пользователя
 $password = ''; // пароль
 
+$search_phrase = '';
+$errors = '';
 //Подключение к БД
 $con = mysqli_connect($host, $user, $password, $database);
 if (!$con) {
@@ -15,6 +17,4 @@ if (!$con) {
 }
 
 session_start();
-if (!empty($_SESSION['user'][0]['name'])) {
-    $active_user = $_SESSION['user'];
-}
+!empty($_SESSION['user'][0]['name']) ? $active_user = $_SESSION['user'] : $active_user = NULL;

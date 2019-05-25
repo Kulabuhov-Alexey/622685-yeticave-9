@@ -13,7 +13,8 @@ $nav = include_template('nav.php', [
 
 $page_content = include_template('sign-up.php', [
     'nav' => $nav,
-    'categories' => $categories
+    'categories' => $categories,
+    'errors' => $errors
 ]);
 
 //нажимаем добавить лот
@@ -32,7 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (count($errors)) {
-        $page_content = include_template('sign-up.php', ['categories' => $categories, 'errors' => $errors, 'post' => $_POST]);
+        $page_content = include_template('sign-up.php', [
+            'categories' => $categories,
+            'errors' => $errors,
+            'post' => $_POST,
+            'nav' => $nav
+        ]);
     } else {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $sql_ins_user = 'INSERT INTO users
@@ -51,8 +57,8 @@ $layout_content = include_template('layout.php', [
     'page_content' => $page_content,
     'categories' => $categories,
     'title' => 'Регистрация пользователя',
-    'user_name' => $user_name,
-    'is_auth' => $is_auth
+    'active_user' => $active_user,
+    'search_phrase' => $search_phrase
 ]);
 
 print($layout_content);

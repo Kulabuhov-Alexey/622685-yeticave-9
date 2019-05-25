@@ -2,7 +2,6 @@
   <?= $nav; ?>
   <form class="form container <?= $errors ? 'form--invalid' : ''; ?>" action="sign-up.php" method="post" enctype="multipart/form-data">
     <h2>Регистрация нового аккаунта</h2>
-    <?php print_r($errors); ?>
     <div class="form__item <?= !empty($errors['email']) ? 'form__item--invalid' : ''; ?>">
       <label for="email">E-mail <sup>*</sup></label>
       <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $post['email'] ?? ''; ?>">
