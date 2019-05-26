@@ -11,7 +11,7 @@
                         </div>
                         <div>
                             <h3 class="rates__title"><a href="lot.php<?= htmlspecialchars('?id=' . $item['id']); ?>"><?= htmlspecialchars($item['name']); ?></a></h3>
-                            <?php if ($item['status'][0] === 'timer--win') : ?><p><?= $item['description']; ?></p>
+                            <?php if ($item['status'][0] === 'timer--win') : ?><p><?= htmlspecialchars($item['description']); ?></p>
                             <?php endif; ?>
                         </div>
                     </td>

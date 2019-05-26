@@ -1,14 +1,14 @@
 <main>
     <?= $nav; ?>
     <section class="lot-item container">
-        <h2><?= $item[0]['name']; ?></h2>
+        <h2><?= htmlspecialchars($item[0]['name']); ?></h2>
         <div class="lot-item__content">
             <div class="lot-item__left">
                 <div class="lot-item__image">
                     <img src="<?= 'uploads/' . $item[0]['photo_url']; ?>" width="730" height="548" alt="Сноуборд">
                 </div>
                 <p class="lot-item__category">Категория: <span><?= $item[0]['category']; ?></span></p>
-                <p class="lot-item__description"><?= $item[0]['description']; ?></p>
+                <p class="lot-item__description"><?= htmlspecialchars($item[0]['description']); ?></p>
             </div>
             <div class="lot-item__right">
                 <?php if (!empty($active_user)) : ?>
@@ -28,7 +28,7 @@
                         <form class="lot-item__form <?= $errors ? 'form__item--invalid' : ''; ?>" action="lot.php<?= htmlspecialchars('?id=' . $item[0]['id']); ?>" method="post" enctype="multipart/form-data">
                             <p class="lot-item__form-item form__item">
                                 <label for="cost">Ваша ставка</label>
-                                <input id="cost" type="text" name="cost" placeholder="Введите ставку" value="<?= $post['cost'] ?? ''; ?>">
+                                <input id="cost" type="text" name="cost" placeholder="Введите ставку" value="<?= htmlspecialchars($post['cost'] ?? ''); ?>">
                                 <span class="form__error"><?= $errors['cost'] ?? ''; ?></span>
                             </p>
                             <button type="submit" class="button">Сделать ставку</button>
