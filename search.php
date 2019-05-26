@@ -39,7 +39,8 @@ $pagination = include_template('pagination.php', [
 ]);
 
 $nav = include_template('nav.php', [
-    'categories' => $categories
+    'categories' => $categories,
+    'cat_class' => $cat_class
 ]);
 
 $page_content = include_template('search.php', [

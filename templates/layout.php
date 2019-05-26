@@ -19,14 +19,14 @@
                     <img src="./img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
                 </a>
                 <form class="main-header__search" method="get" action="search.php" autocomplete="off">
-                    <input type="search" name="search" placeholder="Поиск лота" value="<?= $search_phrase; ?>">
+                    <input type="search" name="search" placeholder="Поиск лота" value="<?= htmlspecialchars($search_phrase); ?>">
                     <input class="main-header__search-btn" type="submit" name="find" value="Найти">
                 </form>
                 <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
                 <nav class="user-menu">
                     <?php if ($active_user) : ?>
                         <div class="user-menu__logged">
-                            <p><?= $active_user[0]['name']; ?></p>
+                            <p><?= htmlspecialchars($active_user[0]['name']); ?></p>
                             <a class="user-menu__bets" href="my-bets.php">Мои ставки</a>
                             <a class="user-menu__logout" href="logout.php">Выход</a>
                         </div>

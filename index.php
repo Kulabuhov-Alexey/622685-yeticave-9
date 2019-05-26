@@ -17,7 +17,8 @@ $items = db_fetch_data($con, $sql_items);
 $items = bets_stat($items, $active_user[0]['id']);
 
 $nav = include_template('nav.php', [
-    'categories' => $categories
+    'categories' => $categories,
+    'cat_class' => $cat_class
 ]);
 
 $promo = include_template('promo.php', [

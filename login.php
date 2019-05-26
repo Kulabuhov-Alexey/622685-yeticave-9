@@ -8,13 +8,15 @@ $sql_categories = 'SELECT name, symbol_code
 $categories = db_fetch_data($con, $sql_categories);
 
 $nav = include_template('nav.php', [
-    'categories' => $categories
+    'categories' => $categories,
+    'cat_class' => $cat_class
 ]);
 
 $page_content = include_template('login.php', [
     'nav' => $nav,
     'categories' => $categories,
-    'active_user' => $active_user
+    'active_user' => $active_user,
+    'errors' => $errors
 ]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

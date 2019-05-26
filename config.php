@@ -1,6 +1,10 @@
 <?php
 date_default_timezone_set("Europe/Moscow");
 
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 $host = 'localhost'; // адрес сервера 
 $database = 'yeticave'; // имя базы данных
 $user = 'root'; // имя пользователя
@@ -10,6 +14,7 @@ $con = mysqli_connect($host, $user, $password, $database); //Подключен�
 $search_phrase = '';
 $errors = '';
 $pagination = '';
+$cat_class = '';
 
 if (!$con) {
     die('Connection FAILED ' . mysqli_connect_error());

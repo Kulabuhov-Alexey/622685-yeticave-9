@@ -29,7 +29,7 @@
                             <p class="lot-item__form-item form__item">
                                 <label for="cost">Ваша ставка</label>
                                 <input id="cost" type="text" name="cost" placeholder="Введите ставку" value="<?= $post['cost'] ?? ''; ?>">
-                                <span class="form__error"><?= $errors['cost']; ?></span>
+                                <span class="form__error"><?= $errors['cost'] ?? ''; ?></span>
                             </p>
                             <button type="submit" class="button">Сделать ставку</button>
                         </form>

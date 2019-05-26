@@ -8,7 +8,8 @@ $sql_categories = 'SELECT name, symbol_code
 $categories = db_fetch_data($con, $sql_categories);
 
 $nav = include_template('nav.php', [
-    'categories' => $categories
+    'categories' => $categories,
+    'cat_class' => $cat_class
 ]);
 
 $page_content = include_template('sign-up.php', [

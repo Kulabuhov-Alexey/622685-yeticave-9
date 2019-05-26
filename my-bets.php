@@ -20,7 +20,8 @@ if ($_SESSION['user'][0]['id']) {
     $categories = db_fetch_data($con, $sql_categories);
 
     $nav = include_template('nav.php', [
-        'categories' => $categories
+        'categories' => $categories,
+        'cat_class' => $cat_class
     ]);
 
     $page_content = include_template('my-bets.php', [

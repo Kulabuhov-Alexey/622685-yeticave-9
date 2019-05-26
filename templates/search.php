@@ -2,7 +2,7 @@
       <?= $nav; ?>
       <div class="container">
           <section class="lots">
-              <h2>Результаты поиска по запросу «<span><?= $search_phrase; ?></span>»</h2>
+              <h2>Результаты поиска по запросу «<span><?= htmlspecialchars($search_phrase); ?></span>»</h2>
               <?php if (!empty($items)) : ?>
                   <ul class="lots__list">
                       <?php foreach ($items as $item) : ?>

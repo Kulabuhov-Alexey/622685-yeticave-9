@@ -220,7 +220,7 @@ function validate($data)
     $err = [];
     $validate_case = [   /// сюда записываем функции-валидаторы
         function ($key, $value) {
-            if (empty($value) && $value == null) {
+            if (empty($value) && $value === '') {
                 return 'Поле нужно заполнить!!!';
             }
         },

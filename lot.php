@@ -35,7 +35,8 @@ $bet_history = db_fetch_data($con, $sql_bet_history);
 $bet_history = bets_time_format($bet_history);
 
 $nav = include_template('nav.php', [
-    'categories' => $categories
+    'categories' => $categories,
+    'cat_class' => $cat_class
 ]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -60,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-if ($id && count($item) != 0) {
+if ($id && count($item) !== 0) {
     $page_content = include_template('lot.php', [
         'nav' => $nav,
         'item' => $item,

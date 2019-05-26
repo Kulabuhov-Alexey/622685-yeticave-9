@@ -18,7 +18,8 @@ $nav = include_template('nav.php', [
 
 $page_content = include_template('add.php', [
     'nav' => $nav,
-    'categories' => $categories
+    'categories' => $categories,
+    'cat_class' => $cat_class
 ]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
