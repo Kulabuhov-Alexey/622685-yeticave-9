@@ -25,7 +25,7 @@
                         <?= format_price($item['current_price']); ?>
                     </td>
                     <td class="rates__time">
-                        <?= htmlspecialchars($item['time_ago']); ?>
+                        <?= htmlspecialchars($item['time_ago'] ?? ''); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
