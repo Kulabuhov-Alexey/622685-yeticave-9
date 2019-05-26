@@ -5,11 +5,12 @@ $host = 'localhost'; // адрес сервера
 $database = 'yeticave'; // имя базы данных
 $user = 'root'; // имя пользователя
 $password = ''; // пароль
+$con = mysqli_connect($host, $user, $password, $database); //Подключение к БД
 
 $search_phrase = '';
 $errors = '';
-//Подключение к БД
-$con = mysqli_connect($host, $user, $password, $database);
+$pagination = '';
+
 if (!$con) {
     die('Connection FAILED ' . mysqli_connect_error());
 } else {

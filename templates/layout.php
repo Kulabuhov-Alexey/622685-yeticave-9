@@ -23,10 +23,7 @@
                     <input class="main-header__search-btn" type="submit" name="find" value="Найти">
                 </form>
                 <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
-
                 <nav class="user-menu">
-
-                    <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
                     <?php if ($active_user) : ?>
                         <div class="user-menu__logged">
                             <p><?= $active_user[0]['name']; ?></p>
