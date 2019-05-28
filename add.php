@@ -24,7 +24,7 @@ $page_content = include_template('add.php', [
     'errors' => $errors
 ]);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && (0 === count(array_diff(['category', 'lot-name', 'message', 'lot-rate', 'lot-date', 'lot-step'], array_keys($_POST))))) {
     $errors = validate($_POST);
     if (!empty($_FILES['pic']['name']) && !count($errors)) {
         $file_type = mime_content_type($_FILES['pic']['tmp_name']);

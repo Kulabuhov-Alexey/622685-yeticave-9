@@ -19,7 +19,7 @@ $page_content = include_template('login.php', [
     'errors' => $errors
 ]);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && (0 === count(array_diff(['email', 'password'], array_keys($_POST))))) {
     $errors = validate($_POST);
     if (empty($errors)) {
         $sql_email = 'SELECT id, pass, email, name

@@ -2,7 +2,7 @@
 require_once('helpers.php');
 require_once('config.php');
 
-$id = intval($_GET['id']);
+$id = array_key_exists('id', $_GET) ? intval($_GET['id']) : intval('');
 
 $sql_item = 'SELECT stuff.name, categories.name AS category, start_price, photo_url, stuff.id, description, current_price, step_call, dt_end, winner  
              FROM stuff
@@ -39,7 +39,7 @@ $nav = include_template('nav.php', [
     'cat_class' => $cat_class
 ]);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && array_key_exists('cost', $_POST)) {
     $errors = validate($_POST);
     if (empty($errors) && ($item[0]['current_price'] + $item[0]['step_call']) > $_POST['cost']) {
         $errors['cost'] = 'Ставка не может быть меньше минимальной';

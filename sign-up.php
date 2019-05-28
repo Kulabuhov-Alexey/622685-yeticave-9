@@ -19,7 +19,7 @@ $page_content = include_template('sign-up.php', [
 ]);
 
 //нажимаем добавить лот
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST'  && (0 === count(array_diff(['email', 'password', 'name', 'message'], array_keys($_POST))))) {
     //валидация
     $errors = validate($_POST);
     //валидация email
